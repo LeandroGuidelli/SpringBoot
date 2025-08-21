@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <title>Listagem de Produtos</title>
+</head>
+
+<body>
+
+    <h1>Listagem de Produtos</h1>
+
+    <div th:if="${message}" style="color: green; font-weight: bold;">
+        <p th:text="${message}"></p>
+    </div>
+
+    <div th:if="${error}" style="color: red; font-weight: bold;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <p>
+        <a th:href="@{/products/new}">Inserir Produto</a>
+    </p>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+            <th></th>
+        </tr>
+        <tr th:each="prod : ${products}">
+            <td th:text="${prod.id}">---</td>
+            <td th:text="${prod.name}">---</td>
+            <td th:text="${prod.price}">---</td>
+            <td th:text="${prod.description}">---</td>
+            <td>
+                <a th:href="@{'/products/edit/' + ${prod.id}}">Editar</a>
+            </td>
+            <td>
+                <a th:href="@{'/products/delete/' + ${prod.id}}"
+                    onclick="return confirm('Tem certeza que deseja excluir este produto?');">
+                    Deletar
+                </a>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
