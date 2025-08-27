@@ -39,4 +39,9 @@ public class ProductService {
             throw new RuntimeException("Produto não pode ser excluído!");
         productRepository.deleteById(id);
     }
+
+    //buscar produto por nome
+    public List<Product> findByName(String name){
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
 }
