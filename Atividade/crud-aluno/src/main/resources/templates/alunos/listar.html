@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>Alunos</h1>
+    
+    <div class="container">
+        <a href="/alunos/cadastrar" class="btn btn-add">Cadastrar Novo</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Idade</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="aluno : ${alunos}">
+            <td th:text="${aluno.nome}"></td>
+            <td th:text="${aluno.email}"></td>
+            <td th:text="${aluno.idade}"></td>
+            <td>
+                <a th:href="@{'/alunos/editar/' + ${aluno.id}}" class="btn btn-edit">Editar</a>
+                <a th:href="@{'/alunos/deletar/' + ${aluno.id}}" class="btn btn-delete">Deletar</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
