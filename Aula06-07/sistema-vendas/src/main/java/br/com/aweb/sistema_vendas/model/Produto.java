@@ -1,4 +1,6 @@
-package br.com.aweb.sistema_vendas.entity;
+package br.com.aweb.sistema_vendas.model;
+
+import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,37 +12,37 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Table(name = "produtos")
 public class Produto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 3, max = 100)
-    @NotBlank(message = "Nome é obrigatório e deve ter entre 3 e 100 caracteres")
-    @Column(length = 100, nullable = false)
+    @NotBlank(message = "O nome é obrigatório")
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @NotBlank(message = "Descrição é obrigatória")
-    @Column(length = 1000, nullable = false)
+    @NotBlank(message = "A descrição é obrigatório")
+    @Column(nullable = false, length = 255)
     private String descricao;
 
-    @NotNull(message = "Preço é obrigatório")
-    @Positive(message = "Valor deve ser maior que 0")
+    @Positive(message = "O preço deve ser positivo")
+    @NotNull(message = "O preço deve ser obrigatório")
     @Column(nullable = false)
-    private Double preco;
+    private BigDecimal preco;
 
-    @NotNull(message = "Quantidade é obrigatória")
-    @PositiveOrZero(message = "Quantidade deve ser maior ou igual a 0")
+    @PositiveOrZero(message = "A quantidade deve ser maior ou igual a zero")
+    @NotNull(message = "A quantidade é obrigatório")
     @Column(nullable = false)
-    private Integer quantidade;
+    private Integer quantidadeEmEstoque;
+
+    public Produto() {
+    }
 }
