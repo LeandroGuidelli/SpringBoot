@@ -13,75 +13,73 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.aweb.sistema_vendas.model.Produto;
-import br.com.aweb.sistema_vendas.service.ProdutoService;
+import br.com.aweb.sistema_vendas.model.Cliente;
+import br.com.aweb.sistema_vendas.service.ClienteService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/produtos")
-public class ProdutoController {
-
+@RequestMapping("/clientes")
+public class ClienteController {
     @Autowired
-    private ProdutoService produtoService;
+    private ClienteService clienteService;
 
-    // Listar produtos
+    // Listar Clientes
     @GetMapping
     public ModelAndView list() {
-        return new ModelAndView("produto/list", Map.of("produtos", produtoService.listarTodos()));
+        return new ModelAndView("cliente/list", Map.of("clientes", clienteService.listarTodos()));
     }
 
     // Formulário de cadastro
     @GetMapping("/novo")
     public ModelAndView create() {
-        return new ModelAndView("produto/form", Map.of("produto", new Produto()));
+        return new ModelAndView("cliente/form", Map.of("cliente", new Cliente()));
     }
 
-    // Salvar produto
+    // Salvar cliente
     @PostMapping("/novo")
-    public String create(@Valid Produto produto, BindingResult result) {
+    public String create(@Valid Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
-            return "produto/form";
+            return "cliente/form";
         }
-        produtoService.salvar(produto);
-        return "redirect:/produtos";
+        clienteService.salvar(cliente);
+        return "redirect:/clientes";
     }
 
     // Formulário de edição
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
-        var optionalProduto = produtoService.buscarPorId(id);
-        if (optionalProduto.isPresent()) {
-            return new ModelAndView("produto/form", Map.of("produto", optionalProduto.get()));
+        var optionalCliente = clienteService.buscarPorId(id);
+        if (optionalCliente.isPresent()) {
+            return new ModelAndView("cliente/form", Map.of("cliente", optionalCliente.get()));
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    // Atualizar produto
+    // Atualizar cliente
     @PostMapping("/edit/{id}")
-    public String edit(@Valid Produto produto, BindingResult result) {
+    public String edit(@Valid Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
-            return "produto/form";
+            return "cliente/form";
         }
 
-        produtoService.atualizar(produto.getId(), produto);
+        clienteService.atualizar(cliente.getId(), cliente);
 
-        return "redirect:/produtos";
+        return "redirect:/clientes";
     }
 
-    // Excluir produto
+    // Excluir cliente
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Long id) {
-        var optionalProduto = produtoService.buscarPorId(id);
-        if (optionalProduto.isPresent()) {
-            return new ModelAndView("produto/delete", Map.of("produto", optionalProduto.get()));
+        var optionalCliente = clienteService.buscarPorId(id);
+        if (optionalCliente.isPresent()) {
+            return new ModelAndView("cliente/delete", Map.of("cliente", optionalCliente.get()));
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(Produto produto) {
-        produtoService.excluir(produto.getId());
-        return "redirect:/produtos";
+    public String delete(Cliente cliente) {
+        clienteService.excluir(cliente.getId());
+        return "redirect:/clientes";
     }
-
 }
